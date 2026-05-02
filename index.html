@@ -1,50 +1,111 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expense Tracker</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
+  <div class="container">
 
-  <h1>Expense Tracker</h1>
-  <h2 id="balance">Total: Rp 0</h2>
-
-  <!-- Form -->
-  <form id="expense-form">
-    <div class="input-group">
-      <label for="name">Nama Item</label>
-      <input type="text" id="name" placeholder="Contoh: Makan siang">
+    <!-- Header -->
+    <div class="header-row">
+      <h1>💸 Expense Tracker</h1>
+      <button id="theme-toggle" class="btn-icon" title="Toggle dark/light mode">🌙</button>
     </div>
 
-    <div class="input-group">
-      <label for="amount">Jumlah (Rp)</label>
-      <input type="number" id="amount" placeholder="Contoh: 25000" min="0">
+    <!-- Balance -->
+    <div id="balance-card">
+      <span id="balance-label">Total Pengeluaran</span>
+      <h2 id="balance">Rp 0</h2>
+      <div id="limit-warning" class="hidden">⚠️ Melebihi batas pengeluaran!</div>
     </div>
 
-    <div class="input-group">
-      <label for="category">Kategori</label>
-      <select id="category">
-        <option value="">-- Pilih Kategori --</option>
-        <option value="Food">🍔 Food</option>
-        <option value="Transport">🚗 Transport</option>
-        <option value="Fun">🎉 Fun</option>
-      </select>
+    <!-- Spending Limit -->
+    <div class="section-card">
+      <div class="section-title">🎯 Batas Pengeluaran</div>
+      <div class="limit-row">
+        <input type="number" id="spending-limit" placeholder="Contoh: 500000" min="0">
+        <button class="btn-secondary" onclick="setLimit()">Set</button>
+      </div>
+      <div id="limit-display" class="limit-info"></div>
     </div>
 
-    <button type="submit" class="btn-submit">
-      <span>+ Tambah Transaksi</span>
-    </button>
-  </form>
+    <!-- Add Custom Category -->
+    <div class="section-card">
+      <div class="section-title">🏷️ Kelola Kategori</div>
+      <div class="limit-row">
+        <input type="text" id="new-category-name" placeholder="Nama kategori baru">
+        <input type="text" id="new-category-emoji" placeholder="Emoji" maxlength="2" style="width:60px">
+        <button class="btn-secondary" onclick="addCategory()">+ Tambah</button>
+      </div>
+      <div id="category-chips"></div>
+    </div>
 
-  <!-- List -->
-  <ul id="transaction-list"></ul>
+    <!-- Form -->
+    <div class="section-card">
+      <div class="section-title">➕ Tambah Transaksi</div>
+      <form id="expense-form">
+        <div class="input-group">
+          <label for="name">Nama Item</label>
+          <input type="text" id="name" placeholder="Contoh: Makan siang">
+        </div>
 
-  <!-- Chart -->
-  <canvas id="chart"></canvas>
+        <div class="input-group">
+          <label for="amount">Jumlah (Rp)</label>
+          <input type="number" id="amount" placeholder="Contoh: 25000" min="0">
+        </div>
+
+        <div class="input-group">
+          <label for="category">Kategori</label>
+          <select id="category">
+            <option value="">-- Pilih Kategori --</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="tx-date">Tanggal</label>
+          <input type="month" id="tx-month">
+        </div>
+
+        <button type="submit" class="btn-submit">+ Tambah Transaksi</button>
+      </form>
+    </div>
+
+    <!-- Controls: Sort + Month Filter -->
+    <div class="controls-row">
+      <div class="control-group">
+        <label>📅 Filter Bulan</label>
+        <input type="month" id="filter-month">
+        <button class="btn-tiny" onclick="clearMonthFilter()">Semua</button>
+      </div>
+      <div class="control-group">
+        <label>🔃 Urutkan</label>
+        <select id="sort-select" onchange="render()">
+          <option value="date-desc">Terbaru</option>
+          <option value="date-asc">Terlama</option>
+          <option value="amount-desc">Jumlah ↓</option>
+          <option value="amount-asc">Jumlah ↑</option>
+          <option value="category-asc">Kategori A–Z</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Monthly Summary -->
+    <div id="monthly-summary" class="section-card hidden">
+      <div class="section-title">📊 Ringkasan Bulan Ini</div>
+      <div id="summary-content"></div>
+    </div>
+
+    <!-- Transaction List -->
+    <ul id="transaction-list"></ul>
+
+    <!-- Chart -->
+    <canvas id="chart"></canvas>
 
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/script.js"></script>
 </body>
