@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+
+  <h1>Expense Tracker</h1>
+  <h2 id="balance">Total: Rp 0</h2>
+
+  <!-- Form -->
+  <form id="expense-form">
+    <div class="input-group">
+      <label for="name">Nama Item</label>
+      <input type="text" id="name" placeholder="Contoh: Makan siang">
+    </div>
+
+    <div class="input-group">
+      <label for="amount">Jumlah (Rp)</label>
+      <input type="number" id="amount" placeholder="Contoh: 25000" min="0">
+    </div>
+
+    <div class="input-group">
+      <label for="category">Kategori</label>
+      <select id="category">
+        <option value="">-- Pilih Kategori --</option>
+        <option value="Food">🍔 Food</option>
+        <option value="Transport">🚗 Transport</option>
+        <option value="Fun">🎉 Fun</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-submit">
+      <span>+ Tambah Transaksi</span>
+    </button>
+  </form>
+
+  <!-- List -->
+  <ul id="transaction-list"></ul>
+
+  <!-- Chart -->
+  <canvas id="chart"></canvas>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
